@@ -1,0 +1,8 @@
+rootProject.name = "EasyRouter"
+include ':app'
+include ':ERoute-Process'
+//include ':EasyRouter'
+include ':RouteEasy'
+include ':router-note'
+include ':login-app'
+include ':register-app'

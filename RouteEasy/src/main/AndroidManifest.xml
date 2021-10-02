@@ -3,7 +3,7 @@
     package="com.realize.routeeasy">
 
     <application>
-        <activity android:name=".CommonActionActivity"></activity>
+        <activity android:name=".activity.CommonActionActivity"></activity>
     </application>
 
 </manifest>

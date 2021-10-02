@@ -1,32 +1,21 @@
-package com.realize.routeeasy;
+package com.realize.routeeasy.utils;
 
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
-import android.content.res.Resources;
-import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.fragment.app.Fragment;
 
+import com.realize.routeeasy.activity.CommonActionActivity;
 import com.realize.routeeasy.fragment.CommonAbstractFragment;
-import com.realize.routeeasy.utils.UrlUtils;
+import com.realize.routeeasy.interfaces.IGotoAction;
+import com.realize.routeeasy.interfaces.IRouter;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import dalvik.system.DexFile;
 
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 

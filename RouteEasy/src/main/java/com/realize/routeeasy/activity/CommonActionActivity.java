@@ -1,7 +1,6 @@
-package com.realize.routeeasy;
+package com.realize.routeeasy.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -9,7 +8,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.realize.routeeasy.R;
 import com.realize.routeeasy.fragment.CommonAbstractFragment;
+import com.realize.routeeasy.utils.Router;
 
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 

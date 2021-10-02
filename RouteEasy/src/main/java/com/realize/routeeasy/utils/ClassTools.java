@@ -1,4 +1,4 @@
-package com.realize.routeeasy;
+package com.realize.routeeasy.utils;
 
 import android.app.Application;
 import android.content.Context;

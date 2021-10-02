@@ -2,7 +2,7 @@ package com.realize.register_app;
 
 import android.app.Application;
 
-import com.realize.routeeasy.Router;
+import com.realize.routeeasy.utils.Router;
 
 /**
  * Created by SongWenjun

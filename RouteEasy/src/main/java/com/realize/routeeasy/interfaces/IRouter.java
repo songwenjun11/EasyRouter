@@ -1,4 +1,4 @@
-package com.realize.routeeasy;
+package com.realize.routeeasy.interfaces;
 
 import java.util.Map;
 

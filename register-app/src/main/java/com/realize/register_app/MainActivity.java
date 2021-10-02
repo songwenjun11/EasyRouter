@@ -3,10 +3,9 @@ package com.realize.register_app;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.TextView;
 
-import com.realize.routeeasy.Router;
+import com.realize.routeeasy.utils.Router;
 import com.realize.router_note.EAction;
 
 @EAction(path = "register/action")

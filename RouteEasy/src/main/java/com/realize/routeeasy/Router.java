@@ -8,9 +8,13 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.os.Build;
+import android.os.Bundle;
 import android.util.Log;
 
 import androidx.fragment.app.Fragment;
+
+import com.realize.routeeasy.fragment.CommonAbstractFragment;
+import com.realize.routeeasy.utils.UrlUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,6 +27,8 @@ import java.util.Map;
 import java.util.Set;
 
 import dalvik.system.DexFile;
+
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
 /**
  * Created by SongWenjun
@@ -37,6 +43,7 @@ public class Router {
     private static volatile Router router;
     private static Map<String, Class<?>> menuMap = new HashMap<>();
     private static String packgage = "router.easy.com.";
+    private static volatile Context context;
 
     private Router() {
     }
@@ -58,6 +65,7 @@ public class Router {
      * @param application
      */
     public static void init(Application application) {
+        context = application;
         Set<String> fileNamePackegeName = ClassTools.getFileNamePackegeName(application, packgage);
         for (String className : fileNamePackegeName) {
             try {
@@ -73,6 +81,20 @@ public class Router {
     }
 
     public void startAction(Activity activity, String action) {
+        startAction(activity, action, new Bundle());
+    }
+
+    public void startAction(Fragment fragment, String action) {
+        startAction(fragment.requireActivity(), action);
+    }
+
+    public void startAction(String action) {
+        startAction(context, action, new Bundle());
+    }
+
+    public void startAction(Context activity, String action, Bundle bundle) {
+        UrlUtils.analysisUrl(action, bundle);
+        action = bundle.getString("action");
         Class<?> aClass = menuMap.get(action);
         if (aClass != null) {
             try {
@@ -80,11 +102,16 @@ public class Router {
                 if (o instanceof Activity) {
                     //Activity
                     Intent intent = new Intent(activity, aClass);
+                    intent.putExtras(bundle);
+                    intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
                     activity.startActivity(intent);
                 } else if (o instanceof Fragment) {
                     //Fragment跳转
-                } else {
+                    CommonActionActivity.gotoAction(activity, action, bundle);
+                } else if (o instanceof IGotoAction) {
                     //自定义规则
+                    IGotoAction iGotoAction = (IGotoAction) o;
+                    iGotoAction.gotoAction(activity, action, bundle);
                 }
             } catch (IllegalAccessException | InstantiationException e) {
                 e.printStackTrace();
@@ -92,5 +119,16 @@ public class Router {
         } else {
             throw new NullPointerException("this action is not fount!!!It's not register.");
         }
+    }
+
+    public CommonAbstractFragment fetchFragment(String action) {
+        Class<CommonAbstractFragment> aClass = (Class<CommonAbstractFragment>) menuMap.get(action);
+        try {
+            CommonAbstractFragment fragment = aClass.newInstance();
+            return fragment;
+        } catch (IllegalAccessException | InstantiationException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

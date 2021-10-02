@@ -17,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         TextView tvButton = findViewById(R.id.tv_button);
-        tvButton.setOnClickListener(v -> Router.getInstance().startAction(MainActivity.this,"bAction"));
+        tvButton.setOnClickListener(v ->
+                Router.getInstance().startAction("fragment/test?asb=iushdksd"));
     }
 }

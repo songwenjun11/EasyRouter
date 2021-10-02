@@ -84,7 +84,7 @@ public class RouterProcesss extends AbstractProcessor {
             StringBuffer sb = new StringBuffer();
             String clazzName = "ActionRoureManager";
             sb.append("package router.easy.com;\n\n")
-                    .append("import com.realize.routeeasy.IRouter;\n\n")
+                    .append("import com.realize.routeeasy.interfaces.IRouter;\n\n")
                     .append("import java.util.Map;\n\n")
                     .append("public class " + clazzName + " implements IRouter{\n")
                     .append("\t@Override\n")

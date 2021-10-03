@@ -19,6 +19,7 @@
     </annotationProcessing>
     <bytecodeTargetLevel target="1.7">
       <module name="EasyRouter.app" target="11" />
+      <module name="EasyRouter.Common" target="11" />
       <module name="EasyRouter.easy-router" target="11" />
       <module name="EasyRouter.EasyRouter" target="11" />
       <module name="EasyRouter.login-app" target="11" />

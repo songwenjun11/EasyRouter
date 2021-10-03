@@ -69,6 +69,10 @@ public class Router {
         }
     }
 
+    public void startAction(String action, Bundle bundle) {
+        startAction(context, action, bundle);
+    }
+
     public void startAction(Activity activity, String action) {
         startAction(activity, action, new Bundle());
     }
@@ -110,11 +114,20 @@ public class Router {
         }
     }
 
+    /**
+     * 根据Action获取CommonAbstraceFragment实例
+     *
+     * @param action
+     * @return CommonAbstraceFragment
+     */
     public CommonAbstractFragment fetchFragment(String action) {
         Class<CommonAbstractFragment> aClass = (Class<CommonAbstractFragment>) menuMap.get(action);
         try {
-            CommonAbstractFragment fragment = aClass.newInstance();
-            return fragment;
+            Fragment fragment = aClass.newInstance();
+            if (fragment instanceof CommonAbstractFragment) {
+                CommonAbstractFragment commonAbstractFragment = (CommonAbstractFragment) fragment;
+                return commonAbstractFragment;
+            }
         } catch (IllegalAccessException | InstantiationException e) {
             e.printStackTrace();
         }

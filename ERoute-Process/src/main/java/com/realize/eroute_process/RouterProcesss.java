@@ -46,27 +46,23 @@ public class RouterProcesss extends AbstractProcessor {
         filer = processingEnv.getFiler();
         messager = processingEnv.getMessager();
         elementUtils = processingEnv.getElementUtils();
-        messager.printMessage(Diagnostic.Kind.NOTE, "start init");
     }
 
     @Override
     public Set<String> getSupportedAnnotationTypes() {
         Set<String> types = new TreeSet<>();
         types.add(EAction.class.getCanonicalName());
-        messager.printMessage(Diagnostic.Kind.NOTE, "start getSupportedAnnotationTypes");
         return types;
     }
 
     @Override
     public SourceVersion getSupportedSourceVersion() {
-        messager.printMessage(Diagnostic.Kind.NOTE, "start getSupportedSourceVersion");
         return SourceVersion.latest();
     }
 
     @Override
     public boolean process(Set<? extends TypeElement> set, RoundEnvironment roundEnvironment) {
         for (TypeElement type : set) {
-            messager.printMessage(Diagnostic.Kind.NOTE, "start process");
             Set<? extends Element> annotatedWith = roundEnvironment.getElementsAnnotatedWith(EAction.class);
             Map<String, String> map = new HashMap<>();
             for (Element element : annotatedWith) {
@@ -102,7 +98,7 @@ public class RouterProcesss extends AbstractProcessor {
                 writer.close();
             } catch (Exception e) {
                 e.printStackTrace();
-                messager.printMessage(Diagnostic.Kind.NOTE, "catch funcation");
+                messager.printMessage(Diagnostic.Kind.ERROR, "error catch funcation:" + e.getMessage());
             }
         }
         return false;

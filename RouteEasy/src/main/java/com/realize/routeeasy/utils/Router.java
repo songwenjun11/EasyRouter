@@ -12,6 +12,7 @@ import com.realize.routeeasy.activity.CommonActionActivity;
 import com.realize.routeeasy.fragment.CommonAbstractFragment;
 import com.realize.routeeasy.interfaces.IGotoAction;
 import com.realize.routeeasy.interfaces.IRouter;
+import com.realize.routeeasy.interfaces.Interceptor;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -70,47 +71,65 @@ public class Router {
     }
 
     public void startAction(String action, Bundle bundle) {
-        startAction(context, action, bundle);
-    }
-
-    public void startAction(Activity activity, String action) {
-        startAction(activity, action, new Bundle());
-    }
-
-    public void startAction(Fragment fragment, String action) {
-        startAction(fragment.requireActivity(), action);
+        startAction(action, bundle, null);
     }
 
     public void startAction(String action) {
-        startAction(context, action, new Bundle());
+        startAction(action, new Bundle());
     }
 
-    public void startAction(Context activity, String action, Bundle bundle) {
+    public void startAction(Context context, String action) {
+        startAction(context, action, null);
+    }
+
+    public void startAction(String action, Bundle bundle, Interceptor interceptor) {
+        startAction(context, action, bundle, interceptor);
+    }
+
+    public void startAction(Context activity, String action, Interceptor interceptor) {
+        startAction(activity, action, new Bundle(), interceptor);
+    }
+
+    public void startAction(Fragment fragment, String action, Interceptor interceptor) {
+        startAction(fragment.requireActivity(), action, interceptor);
+    }
+
+    public void startAction(String action, Interceptor interceptor) {
+        startAction(context, action, new Bundle(), interceptor);
+    }
+
+    public void startAction(Context activity, String action, Bundle bundle, Interceptor interceptor) {
         UrlUtils.analysisUrl(action, bundle);
         action = bundle.getString("action");
-        Class<?> aClass = menuMap.get(action);
-        if (aClass != null) {
-            try {
-                Object o = aClass.newInstance();
-                if (o instanceof Activity) {
-                    //Activity
-                    Intent intent = new Intent(activity, aClass);
-                    intent.putExtras(bundle);
-                    intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
-                    activity.startActivity(intent);
-                } else if (o instanceof Fragment) {
-                    //Fragment跳转
-                    CommonActionActivity.gotoAction(activity, action, bundle);
-                } else if (o instanceof IGotoAction) {
-                    //自定义规则
-                    IGotoAction iGotoAction = (IGotoAction) o;
-                    iGotoAction.gotoAction(activity, action, bundle);
+        boolean gotoStart = true;
+        if (interceptor != null) {
+            gotoStart = interceptor.interceptor(action, bundle);
+        }
+        if (gotoStart) {
+            Class<?> aClass = menuMap.get(action);
+            if (aClass != null) {
+                try {
+                    Object o = aClass.newInstance();
+                    if (o instanceof Activity) {
+                        //Activity
+                        Intent intent = new Intent(activity, aClass);
+                        intent.putExtras(bundle);
+                        intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
+                        activity.startActivity(intent);
+                    } else if (o instanceof Fragment) {
+                        //Fragment跳转
+                        CommonActionActivity.gotoAction(activity, action, bundle);
+                    } else if (o instanceof IGotoAction) {
+                        //自定义规则
+                        IGotoAction iGotoAction = (IGotoAction) o;
+                        iGotoAction.gotoAction(activity, action, bundle);
+                    }
+                } catch (IllegalAccessException | InstantiationException e) {
+                    e.printStackTrace();
                 }
-            } catch (IllegalAccessException | InstantiationException e) {
-                e.printStackTrace();
+            } else {
+                throw new NullPointerException("this action is not fount!!!It's not register.");
             }
-        } else {
-            throw new NullPointerException("this action is not fount!!!It's not register.");
         }
     }
 

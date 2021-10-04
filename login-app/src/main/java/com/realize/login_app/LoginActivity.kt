@@ -13,7 +13,7 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
         val tvBtnLogin = findViewById<TextView>(R.id.tv_btn_login);
         tvBtnLogin.setOnClickListener {
-            Router.getInstance().startAction("main/activity")
+            Router.getInstance().startAction("register/action")
         }
     }
 }

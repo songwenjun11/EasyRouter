@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<TextView>(R.id.tv_button).setOnClickListener {
             Router.getInstance()
-                .startAction("action/activity/test?asb=asdasd", object : Interceptor {
+                .startAction("login/activity", object : Interceptor {
                     override fun interceptor(action: String?, bundle: Bundle?): Boolean {
                         Log.e("test", bundle.toString())
                         return true

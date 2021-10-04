@@ -6,6 +6,7 @@ import java.io.Writer;
 import java.lang.annotation.Annotation;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -78,7 +79,7 @@ public class RouterProcesss extends AbstractProcessor {
             }
 
             StringBuffer sb = new StringBuffer();
-            String clazzName = "ActionRoureManager";
+            String clazzName = "ActionRoureManager" + System.currentTimeMillis();
             sb.append("package router.easy.com;\n\n")
                     .append("import com.realize.routeeasy.interfaces.IRouter;\n\n")
                     .append("import java.util.Map;\n\n")

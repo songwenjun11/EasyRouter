@@ -133,6 +133,41 @@ public class Router {
         }
     }
 
+    public void startActionForResult(Activity activity, String action,int requestCode, Bundle bundle, Interceptor interceptor) {
+        UrlUtils.analysisUrl(action, bundle);
+        action = bundle.getString("action");
+        boolean gotoStart = true;
+        if (interceptor != null) {
+            gotoStart = interceptor.interceptor(action, bundle);
+        }
+        if (gotoStart) {
+            Class<?> aClass = menuMap.get(action);
+            if (aClass != null) {
+                try {
+                    Object o = aClass.newInstance();
+                    if (o instanceof Activity) {
+                        //Activity
+                        Intent intent = new Intent(activity, aClass);
+                        intent.putExtras(bundle);
+                        intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
+                        activity.startActivityForResult(intent,requestCode);
+                    } else if (o instanceof Fragment) {
+                        //Fragment跳转
+                        CommonActionActivity.gotoAction(activity, action, bundle,requestCode);
+                    } else if (o instanceof IGotoAction) {
+                        //自定义规则
+                        IGotoAction iGotoAction = (IGotoAction) o;
+                        iGotoAction.gotoAction(activity, action, bundle);
+                    }
+                } catch (IllegalAccessException | InstantiationException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                throw new NullPointerException("this action is not fount!!!It's not register.");
+            }
+        }
+    }
+
     /**
      * 根据Action获取CommonAbstraceFragment实例
      *

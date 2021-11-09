@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,6 +26,14 @@ public class CommonActionActivity extends AppCompatActivity {
         intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
         intent.putExtras(bundle);
         context.startActivity(intent);
+    }
+
+    public static void gotoAction(Activity context, String action, Bundle bundle, int requestCode) {
+        Intent intent = new Intent(context, CommonActionActivity.class);
+        intent.putExtra(KEY_ACTION, action);
+        intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtras(bundle);
+        context.startActivityForResult(intent, requestCode);
     }
 
     @Override

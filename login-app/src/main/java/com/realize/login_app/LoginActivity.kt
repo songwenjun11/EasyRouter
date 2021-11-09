@@ -11,7 +11,7 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-        val tvBtnLogin = findViewById<TextView>(R.id.tv_btn_login);
+        val tvBtnLogin = findViewById<TextView>(R.id.tv_btn_login)
         tvBtnLogin.setOnClickListener {
             Router.getInstance().startAction("register/action")
         }
